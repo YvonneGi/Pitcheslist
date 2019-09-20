@@ -14,7 +14,6 @@ class User(UserMixin,db.Model):
     pass_secure = db.Column(db.String(255))
     pitch = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
-    # reviews = db.relationship('Review',backref = 'user',lazy = "dynamic")
     pitches = db.relationship('Pitch',backref = 'user',lazy="dynamic")
     
     

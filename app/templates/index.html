@@ -12,9 +12,22 @@
     </head>
     <body>
         {% block content %}
-      <div>
+      <div class="container">
           <h1>Welcome to The best Pitches Website </h1>
-      </div>
+     
+      <h3> Health category</h3>
+       <ul>
+            {{ macro.displayCategoryList(Health)}}
+        </ul>
+        <h3> Agriculture category </h3>
+        <ul>
+            {{ macro.displayCategoryList(Agriculture)}}
+        </ul>
+        <h3> Business category </h3>
+        <ul>
+            {{ macro.displayCategoryList(Business)}}
+        </ul>
+    </div>
       {% endblock%}
        
 
