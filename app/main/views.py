@@ -1,11 +1,19 @@
-from flask import render_template,request,redirect,url_for,abort
+from flask import render_template,redirect,url_for,abort
 from . import main
-from ..request import get_movies,get_movie,search_movie
-from .forms import ReviewForm,UpdateProfile
+# from ..request import get_movies,get_movie,search_movie
+from .forms import UpdateProfile
 from .. import db,photos
-from ..models import Review,User
+from ..models import User   
 from flask_login import login_required,current_user
 import markdown2 
+
+@main.route('/')
+def index():
+    '''
+    View root page function that returns the index page and its data
+    '''
+    title = 'Home - Welcome to The best Pitches Website'
+    return render_template('index.html', title = title)
 
 @main.route('/user/<uname>')
 def profile(uname):

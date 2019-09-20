@@ -7,11 +7,16 @@
         {% if title %}
         <title> {{ title }}</title>
         {% else %}
-        <title> Welcome to the best Movie Review website </title>
+        <title> Welcome to The best Pitches Website </title>
         {% endif %}
     </head>
     <body>
-      <p></p>
+        {% block content %}
+      <div>
+          <h1>Welcome to The best Pitches Website </h1>
+      </div>
+      {% endblock%}
+      
       
        
       
