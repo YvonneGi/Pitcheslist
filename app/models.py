@@ -34,3 +34,14 @@ class User(UserMixin,db.Model):
 
     def verify_password(self,password):
         return check_password_hash(self.pass_secure,password)
+
+        
+class Category(db.Model):
+    __tablename__ = 'category'
+
+    id = db.Column(db.Integer,primary_key = True)
+    cat_name = db.Column(db.String(255))
+    
+
+    def __repr__(self):
+        return f'Category {self.cat_name}'
