@@ -1,9 +1,9 @@
-from flask import render_template,redirect,url_for,abort
+from flask import render_template,redirect,url_for,abort,request
 from . import main
 # from ..request import get_movies,get_movie,search_movie
 from .forms import UpdateProfile
 from .. import db,photos
-from ..models import User   
+from ..models import User 
 from flask_login import login_required,current_user
 import markdown2 
 
