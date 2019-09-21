@@ -40,7 +40,7 @@ def new_category():
 @main.route('/category/<int:id>')
 def category(id):
     category_ = Category.query.get(id)
-    pitches = Pitch.query.filter_by(category=category_.id).all()
+    pitches = Pitch.query.filter_by(category=category_).all()
 
     
     return render_template('category.html', pitches=pitches, category=category_)
