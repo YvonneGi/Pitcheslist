@@ -61,9 +61,9 @@ def new_pitch(id):
 
     if form.validate_on_submit():
         content = form.content.data
-        new_pitch= Pitch(content=content,category= category.id,user_id=current_user.id)
+        new_pitch= Pitch(content=content,category= category,user=current_user)
         new_pitch.save_pitch()
-        return redirect(url_for('.category', id=category.id))
+        return redirect(url_for('.category', id=id))
 
 
     title = 'New Pitch'
