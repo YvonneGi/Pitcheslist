@@ -15,3 +15,8 @@ class PitchForm(FlaskForm):
 class CategoryForm(FlaskForm):
     name = TextAreaField('Category')
     submit = SubmitField()
+    #Comment Form
+class CommentForm(FlaskForm):
+    comment = TextAreaField('Comment', validators=[Required()])
+    submit = SubmitField()
+    vote=RadioField('default field arguments', choices=[('1', 'UpVote'), ('1', 'DownVote')])

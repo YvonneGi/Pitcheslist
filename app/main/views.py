@@ -1,7 +1,7 @@
 from flask import render_template,redirect,url_for,abort,request
 from . import main
-from ..request import get_category
-from .forms import UpdateProfile,PitchForm,CategoryForm
+# from ..request import get_category
+from .forms import UpdateProfile,PitchForm,CategoryForm,CommentForm
 from .. import db,photos
 from ..models import User,Pitch,Category
 from flask_login import login_required,current_user
@@ -38,19 +38,16 @@ def new_category():
     return render_template('new_category.html', category_form = form,title=title)
 
 
-@main.route('/category/<int:id>')
+@main.route('/categories/<int:id>')
 def category(id):
+    category_ = Category.query.get(id)
+    pitches = Pitch.query.filter_by(category=category_.id).all()
 
-    '''
-    View function that returns category
-    '''
     
-    category = Category.query.get(id)
-    pitches = Pitch.query.filter_by(category=id).all()
+    return render_template('category.html', pitches=pitches, category=category_)
 
-    return render_template('categories.html', pitches=pitches, category=category)
-
-@main.route('/category/pitch/new/<int:id>', methods = ['GET','POST'])
+#Route for adding a new pitch
+@main.route('/categories/pitch/new/<int:id>', methods = ['GET','POST'])
 @login_required
 def new_pitch(id):
     form = PitchForm()
@@ -60,7 +57,7 @@ def new_pitch(id):
         title = form.title.data
         pitch = form.pitch.data
         
-           # Updated pitch instance
+        # Updated pitch instance
         new_pitch = Pitch(category_id=category.id,cat_name=cat_name,category_pitch=review,user=current_user)
 
         # save pitch method
@@ -70,13 +67,23 @@ def new_pitch(id):
     cat_name = f'{category.cat_name} pitch'
     return render_template('new_pitch.html',cat_name = cat_name, pitch_form=form, category=category)
 
-@main.route('/pitch/<int:id>')
-def single_pitch(id):
-    pitch=Pitch.query.get(id)
-    if pitch is None:
+#viewing a Pitch with its comments
+@main.route('/categories/view_pitch/<int:id>', methods=['GET', 'POST'])
+@login_required
+def view_pitch(id):
+    '''
+    Function the returns a single pitch for comment to be added
+    '''
+
+    print(id)
+    pitches = Pitch.query.get(id)
+    # pitches = P 2itch.query.filter_by(id=id).all()
+
+    if pitches is None:
         abort(404)
-    format_pitch = markdown2.markdown(pitch.category_pitch,extras=["code-friendly", "fenced-code-blocks"])
-    return render_template('pitch.html',pitch = pitch,format_pitch=format_pitch)
+    #
+    comment = Comments.get_comments(id)
+    return render_template('pitch.html', pitches=pitches, comment=comment, category_id=id)
 
 @main.route('/user/<uname>')
 def profile(uname):
