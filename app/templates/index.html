@@ -14,22 +14,43 @@
         {% block content %}
       <div class="container">
           <h1>Welcome to The best Pitches Website </h1>
-     
-      <h3> Health category</h3>
-       <ul>
-            {{ macro.displayCategoryList(Health)}}
-        </ul>
-        <h3> Agriculture category </h3>
-        <ul>
-            {{ macro.displayCategoryList(Agriculture)}}
-        </ul>
-        <h3> Business category </h3>
-        <ul>
-            {{ macro.displayCategoryList(Business)}}
-        </ul>
+        <div class="category col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <a href="{{ macro.displayCategoryList(Health)}}">Health</a>
+        </div>
+        <div class="category col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <a href="{{ macro.displayCategoryList(Agriculture)}}">Agriculture</a>
+        </div>
+        <div class="category col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <a href="{{ macro.displayCategoryList(Business)}}">Business</a>
+        </div>
+        <div class="category col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <a href="{{ macro.displayCategoryList(Motivational)}}">Motivational</a>
+        </div>
+        <div class="category col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <a href="{{ macro.displayCategoryList(Fashion)}}">Fashion</a>
+        </div>
+        <div class="category col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <a href="{{ macro.displayCategoryList(Enterpreneurship)}}">Enterpreneurship</a>
+        </div>
+        <div class="category col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <a href="{{ macro.displayCategoryList(Creativity)}}">Creativity</a>
+        </div>
+        <div class="category col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <a href="{{ macro.displayCategoryList(Sport)}}">Sport</a>
+        </div>
+        <div class="category col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <a href="{{ macro.displayCategoryList(Geography)}}">Geography</a>
+        </div>
+        <div class="category col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <a href="{{ macro.displayCategoryList(Economics)}}">Economics</a>
+        </div>
+        <div class="category col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <a href="{{ macro.displayCategoryList(Humanity)}}">Humanity</a>
+        </div>
+        <div class="category col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <a href="{{ macro.displayCategoryList(Promotion)}}">Promotion</a>
+        </div>
     </div>
       {% endblock%}
-       
-
     </body>
 </html

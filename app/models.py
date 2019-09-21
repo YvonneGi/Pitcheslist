@@ -4,6 +4,10 @@ from flask_login import UserMixin
 from . import login_manager
 from datetime import datetime
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
 class User(UserMixin,db.Model):
     __tablename__ = 'users'
 
@@ -12,17 +16,13 @@ class User(UserMixin,db.Model):
     email = db.Column(db.String(255),unique = True,index = True)
     password_hash = db.Column(db.String(255))
     pass_secure = db.Column(db.String(255))
-    pitch = db.Column(db.String(255))
+    bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
     pitches = db.relationship('Pitch',backref = 'user',lazy="dynamic")
     
     
     def __repr__(self):
       return f'User {self.username}'
-
-    @login_manager.user_loader
-    def load_user(user_id):
-        return User.query.get(int(user_id))
 
     
     @property
@@ -45,9 +45,16 @@ class Category(db.Model):
     cat_name = db.Column(db.String(255))
     pitches = db.relationship('Pitch',backref = 'category',lazy="dynamic")
     
+    @classmethod
+    def get_categories(cls):
+        
+        categories = Category.query.all()
+        return categories 
 
-    def __repr__(self):
-        return f'Category {self.cat_name}'
+    def save_category(self):
+        db.session.add(self)
+        db.session.commit() 
+    
 
 class Pitch(db.Model):
     __tablename__ = 'pitches'
@@ -55,9 +62,28 @@ class Pitch(db.Model):
     id = db.Column(db.Integer,primary_key = True)
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
     category_id = db.Column(db.Integer,db.ForeignKey('category.id'))
-    pitch_title = db.Column(db.String(255))
+    pitch = db.Column(db.String(255))
     content = db.Column(db.String(255))
     
 
-    def __repr__(self):
-        return f'User {self.name}'
+    def save_pitch(self):
+        '''
+        Function that saves pitches
+        '''
+        db.session.add(self)
+        db.session.commit()
+    
+    @classmethod
+    def get_all_pitches(cls):
+       
+        return Pitch.query.all()
+
+    @classmethod
+    def get_pitches_by_category(cls,id):
+        
+        return Pitch.query.filter_by(category_id=id).all()
+
+    @classmethod
+    def clear_pitches(cls):
+        Pitch.all_pitches.clear()
+    

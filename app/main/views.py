@@ -1,10 +1,9 @@
 from flask import render_template,redirect,url_for,abort,request
 from . import main
 from ..request import get_category
-from .forms import UpdateProfile,PitchForm
-# from .forms import UpdateProfile
+from .forms import UpdateProfile,PitchForm,CategoryForm
 from .. import db,photos
-from ..models import User,Pitch
+from ..models import User,Pitch,Category
 from flask_login import login_required,current_user
 import markdown2 
 
@@ -13,21 +12,43 @@ def index():
     '''
     View root page function that returns the index page and its data
     '''
+    
+   
     title = 'Home - Welcome to The best Pitches Website'
-    return render_template('index.html', title = title)
+    category = Category.get_categories()
+    return render_template('index.html', title = title,category = category)
+
+@main.route('/add/category', methods=['GET','POST'])
+@login_required
+def new_category():
+    '''
+    View new group route function that returns a page with a form to create a category
+    '''
+    form = CategoryForm()
+
+    if form.validate_on_submit():
+        cat_name = form.name.data
+        new_category = Category(name=cat_name)
+        new_category.save_category()
+
+        return redirect(url_for('.index'))
+
+    
+    title = 'New category'
+    return render_template('new_category.html', category_form = form,title=title)
+
 
 @main.route('/category/<int:id>')
 def category(id):
 
     '''
-    View Category page function that returns the page where you add pitch
+    View function that returns category
     '''
-    category = get_category(id)
-    cat_name = f'{category.cat_name}'
-    pitch = Pitch.get_pitch(category.id)
-   
+    
+    category_ = Category.query.get(id)
+    pitches = Pitch.query.filter_by(category=category_.id).all()
 
-    return render_template('categories.html',cat_name = cat_name,category = category,pitch = pitch)
+    return render_template('category.html', pitches=pitches, category=category_)
 
 @main.route('/category/pitch/new/<int:id>', methods = ['GET','POST'])
 @login_required
