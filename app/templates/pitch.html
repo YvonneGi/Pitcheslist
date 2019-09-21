@@ -1,16 +1,24 @@
-{% extends 'base.html'%}
 
-{% block content%}
-<div class="container-fluid">
+{% extends "base.html" %}
 
-  <div class="row">
-    <!-- <div class="col-sm-4">
-      <img src="{{review.image_path}}" class="img-responsive">
-    </div> -->
+{% import 'macros.html' as macro%}
 
-    <div class="col-sm-8">
-      {{format_pitch|safe}}
-    </div>
+
+{% block content %}
+  <div class=" col-md-10 col-md-offset-1 col-sm-12">
+      <h3 class="text-center">{{category.cat_name|upper}}</h3>
+        <a class="btn btn-primary text-center text-danger " href="/category/view_pitch/{{pitches.category.id}}"> Write a new Pitch
+        </a>
+        <hr>
   </div>
-</div>
-{%endblock%}
+
+    {% if pitches %}
+      <div class="col-sm-12 col-md-8">
+          {{ macro.displayPitches(pitches)}}
+      </div>
+  {%else%}
+        <h3 class="text-center">This category has no pitches </h3>
+        <a class="btn btn-primary text-center text-danger" style="float:right;" href="{{url_for('main.new_pitch',id=category.id)}}"> Write a new pitch</a>
+  {% endif %}
+
+{% endblock %}
