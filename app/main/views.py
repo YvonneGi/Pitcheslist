@@ -28,7 +28,7 @@ def new_category():
 
     if form.validate_on_submit():
         cat_name = form.name.data
-        new_category = Category(name=cat_name)
+        new_category = Category(cat_name=cat_name)
         new_category.save_category()
 
         return redirect(url_for('.index'))
@@ -45,10 +45,10 @@ def category(id):
     View function that returns category
     '''
     
-    category_ = Category.query.get(id)
-    pitches = Pitch.query.filter_by(category=category_.id).all()
+    category = Category.query.get(id)
+    pitches = Pitch.query.filter_by(category=id).all()
 
-    return render_template('category.html', pitches=pitches, category=category_)
+    return render_template('categories.html', pitches=pitches, category=category)
 
 @main.route('/category/pitch/new/<int:id>', methods = ['GET','POST'])
 @login_required
