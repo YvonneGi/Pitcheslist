@@ -37,7 +37,7 @@ def new_category():
     return render_template('new_category.html', category_form = form,title=title)
 
 
-@main.route('/categories/<int:id>')
+@main.route('/category/<int:id>')
 def category(id):
     category_ = Category.query.get(id)
     pitches = Pitch.query.filter_by(category=category_.id).all()
@@ -46,7 +46,7 @@ def category(id):
     return render_template('category.html', pitches=pitches, category=category_)
 
 #Route for adding a new pitch
-@main.route('/categories/pitch/new/<int:id>', methods = ['GET','POST'])
+@main.route('/category/pitch/new/<int:id>', methods = ['GET','POST'])
 @login_required
 def new_pitch(id):
     form = PitchForm()
@@ -67,7 +67,7 @@ def new_pitch(id):
     return render_template('new_pitch.html',cat_name = cat_name, pitch_form=form, category=category)
 
 #viewing a Pitch with its comments
-@main.route('/categories/view_pitch/<int:id>', methods=['GET', 'POST'])
+@main.route('/category/view_pitch/<int:id>', methods=['GET', 'POST'])
 @login_required
 def view_pitch(id):
     '''
@@ -76,11 +76,9 @@ def view_pitch(id):
 
     print(id)
     pitches = Pitch.query.get(id)
-    # pitches = P 2itch.query.filter_by(id=id).all()
 
     if pitches is None:
         abort(404)
-    #
     comment = Comments.get_comments(id)
     return render_template('pitch.html', pitches=pitches, comment=comment, category_id=id)
 
