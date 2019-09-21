@@ -4,18 +4,12 @@
 <!-- Content block -->
 {% block content %}
 <div class="container">
-
-    <!-- Poster background -->
     <div class="row">
-        <!-- <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 posterPath" style="background: url({{movie.poster}}) no-repeat center center">
-        </div> -->
-
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 movie-details">
-            <h3>{{ category.cat_name }}</h3>
-
-            <!-- <p class="overview"> {{ movie.overview }}</p> -->
-            <!-- <p class="ratings"> <b> {{ movie.vote_average }}</b> - <i>{{ movie.vote_count}} votes </i> </p> -->
-            <a class="ratings" href="/category/pitch/new/{{category.id}}"> Write a new pitch</a>
+            
+            <h3 class="text-center">{{category.cat_name|upper}}</h3>
+            <hr>
+            <a class="btn btn-primary text-center text-danger" style="float:right;" href="{{url_for('main.new_pitch',id=category.id)}}"> Write a new pitch</a>
 
         </div>
     </div>
@@ -29,8 +23,8 @@
 
         {% else%}
             <h3 class="text-center">This category has no pitches </h3>
+            <a class="btn btn-primary text-center text-danger" style="float:right;" href="{{url_for('main.new_pitch',id=category.id)}}"> Write a new pitch</a>
 
-            <a class="btn btn-success btn-lg text-center" href="/category/review/new/{{category.id}}"> Write a new pitch</a>
         {% endif %}
     </div>
 
