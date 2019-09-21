@@ -39,34 +39,38 @@ def new_category():
 
 @main.route('/category/<int:id>')
 def category(id):
-    category_ = Category.query.get(id)
-    pitches = Pitch.query.filter_by(category=category_).all()
+    category1 = Category.query.get(id)
+    pitches = Pitch.query.filter_by(category=category1).all()
 
     
-    return render_template('category.html', pitches=pitches, category=category_)
-
+    return render_template('category.html', pitches=pitches, category=category1)
+    
 #Route for adding a new pitch
-@main.route('/category/pitch/new/<int:id>', methods = ['GET','POST'])
+
+@main.route('/category/view_pitch/add/<int:id>', methods=['GET', 'POST'])
 @login_required
 def new_pitch(id):
+    '''
+    Function to check Pitches form and fetch data from the fields
+    '''                                             
     form = PitchForm()
-    category = get_category(id)
+    category = Category.query.filter_by(id=id).first()
+
+    if category is None:
+        abort(404)
 
     if form.validate_on_submit():
-        title = form.title.data
-        pitch = form.pitch.data
-        
-        # Updated pitch instance
-        new_pitch = Pitch(category_id=category.id,cat_name=cat_name,category_pitch=review,user=current_user)
-
-        # save pitch method
+        content = form.content.data
+        new_pitch= Pitch(content=content,category= category.id,user_id=current_user.id)
         new_pitch.save_pitch()
-        return redirect(url_for('.category',id = category.id ))
+        return redirect(url_for('.category', id=category.id))
 
-    cat_name = f'{category.cat_name} pitch'
-    return render_template('new_pitch.html',cat_name = cat_name, pitch_form=form, category=category)
+
+    title = 'New Pitch'
+    return render_template('new_pitch.html', title = title, pitch_form = form, category = category)
 
 #viewing a Pitch with its comments
+
 @main.route('/category/view_pitch/<int:id>', methods=['GET', 'POST'])
 @login_required
 def view_pitch(id):
