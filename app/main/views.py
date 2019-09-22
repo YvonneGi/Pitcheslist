@@ -86,6 +86,31 @@ def view_pitch(id):
     comment = Comments.get_comments(id)
     return render_template('pitch.html', pitches=pitches, comment=comment, category_id=id)
 
+
+@main.route('/pitch/comments/new/<int:id>',methods = ['GET','POST'])
+@login_required
+def new_comment(id):
+    form = CommentsForm()
+    vote_form = UpvoteForm()
+    if form.validate_on_submit():
+        new_comment = Comment(pitch_id =id,comment=form.comment.data,username=current_user.username,votes=form.vote.data)
+        new_comment.save_comment()
+        return redirect(url_for('main.index'))
+    comments = Comment.get_comments(id)
+    print(comments)
+    
+    #title = f'{pitch_result.id} review'
+    return render_template('new_comment.html',comment_form=form, Subscribe_form= subscribe_form, comments=comments, Blog= blog)
+
+@main.route('/view/comment/<int:id>')
+def view_comments(id):
+    '''
+    Function that returs  the comments belonging to a particular pitch
+    '''
+    comments = Comment.get_comments(id)
+    print(comments)
+    return render_template('view_comments.html',comments = comments, id=id)
+
 @main.route('/user/<uname>')
 def profile(uname):
     user = User.query.filter_by(username = uname).first()
@@ -122,3 +147,11 @@ def update_pic(uname):
         user.profile_pic_path = path
         db.session.commit()
     return redirect(url_for('main.profile',uname=uname))
+
+# @main.route('/test/<int:id>')  
+# def test(id):
+#     '''
+#     this is route for basic testing
+#     '''
+#    blog =blog.query.filter_by(id=1).first()
+#    return render_template('test.html',Blog= Blog)

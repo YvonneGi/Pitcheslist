@@ -19,3 +19,9 @@ class CommentForm(FlaskForm):
     comment = TextAreaField('Comment', validators=[Required()])
     submit = SubmitField()
     vote=RadioField('default field arguments', choices=[('1', 'UpVote'), ('1', 'DownVote')])
+
+
+class UpvoteForm(FlaskForm):
+    
+    
+    submit = SubmitField('Upvote')
