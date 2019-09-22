@@ -1,6 +1,6 @@
 from flask import render_template,redirect,url_for,abort,request
 from . import main
-from .forms import UpdateProfile,PitchForm,CategoryForm,CommentForm
+from .forms import UpdateProfile,PitchForm,CategoryForm,CommentForm,UpvoteForm
 from .. import db,photos
 from ..models import User,Pitch,Category,Comment,Vote
 from flask_login import login_required,current_user
@@ -99,8 +99,9 @@ def new_comment(id):
     comments = Comment.get_comments(id)
     print(comments)
     
-    #title = f'{pitch_result.id} review'
-    return render_template('new_comment.html',comment_form=form, Subscribe_form= subscribe_form, comments=comments, Blog= blog)
+    
+    return render_template('new_comment.html',comment_form=form, comments=comments)
+
 
 @main.route('/view/comment/<int:id>')
 def view_comments(id):
