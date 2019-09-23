@@ -15,6 +15,10 @@
         <p>{{pitches.name|upper}}</p></a>
         <div class="col-md-10 col-sm-12">
             <h3>{{pitches.content}}</h3>
+            <button style=" font-size:18px;background-color: #002457" ><a href="{{url_for('main.new_comment',pitch_id=pitches.id)}}">Add a Comment</a>&nbsp;&nbsp;|</button>
+         
+            <button style=" font-size:18px;" > <a href="{{url_for('main.new_comment',pitch_id=pitches.id)}}">Upvote</a></button>
+            <button style=" font-size:18px;" > <a href="{{url_for('main.new_comment',pitch_id=pitches.id)}}">Downvote</a></button>
             
             
       </div>
@@ -23,31 +27,4 @@
 
   </div>
   {% endfor %}
-{% endmacro %}
-
-{% macro displayPitchCategory(pitches_list) %}
-
-    {% for pitch in pitches_list %}
-      <div class="panel style="style="box-shadow: 5px 5px 5px 5px #f2f2f2; padding:10px; text-align:center;">
-          <p>{{pitch.pitch}}</p>
-          <br>
-          <button style=" font-size:18px;" ><a href="{{url_for('main.new_comment',id=pitch.id)}}">Add comment </a>&nbsp;&nbsp;|</button>
-         
-     
-      </div> 
-    {% endfor %}
-    {% endmacro %}
-    
-    {% macro displayComments(Comments_list) %}
-
-    {% for pitch in Comments_list %}
-      <div class="panel style="style="box-shadow: 5px 5px 5px 5px #f2f2f2; padding:10px; text-align:center;">
-          <p>{{pitch.comment}}</p>
-          <br>
-          <button style=" font-size:18px;" ><a href="{{url_for('main.new_comment',id=pitch.id)}}">Add a Comment</a>&nbsp;&nbsp;|</button>
-         
-        <button style=" font-size:18px;" > <a href="{{url_for('main.new_comment',id=pitch.id)}}">Vote</a></button>
-      </div> 
-    {% endfor %}
-
 {% endmacro %}

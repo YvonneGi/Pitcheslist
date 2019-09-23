@@ -1,8 +1,8 @@
 from flask import render_template,redirect,url_for,abort,request
 from . import main
-from .forms import UpdateProfile,PitchForm,CategoryForm,CommentForm,UpvoteForm
+from .forms import UpdateProfile,PitchForm,CategoryForm,CommentForm,UpvoteForm,DownvoteForm
 from .. import db,photos
-from ..models import User,Pitch,Category,Comment,Vote
+from ..models import User,Pitch,Category,Comment,Upvote,Downvote
 from flask_login import login_required,current_user
 import markdown2 
 
@@ -87,30 +87,65 @@ def view_pitch(id):
     return render_template('pitch.html', pitches=pitches, comment=comment, category_id=id)
 
 
-@main.route('/pitch/comments/new/<int:id>',methods = ['GET','POST'])
+@main.route('/comment/new/<int:id>', methods = ['GET','POST'])
 @login_required
 def new_comment(id):
-    form = CommentsForm()
-    vote_form = UpvoteForm()
+    form = CommentForm()
+    pitch=Pitch.query.get(id)
     if form.validate_on_submit():
-        new_comment = Comment(pitch_id =id,comment=form.comment.data,username=current_user.username,votes=form.vote.data)
-        new_comment.save_comment()
-        return redirect(url_for('main.index'))
-    comments = Comment.get_comments(id)
-    print(comments)
-    
-    
-    return render_template('new_comment.html',comment_form=form, comments=comments)
+        description = form.description.data
+
+        new_comment = Comment(description = description, user_id = current_user._get_current_object().id, pitch_id = id)
+        db.session.add(new_comment)
+        db.session.commit()
 
 
-@main.route('/view/comment/<int:id>')
-def view_comments(id):
-    '''
-    Function that returs  the comments belonging to a particular pitch
-    '''
-    comments = Comment.get_comments(id)
-    print(comments)
-    return render_template('view_comments.html',comments = comments, id=id)
+        return redirect(url_for('.new_comment', pitch_id= id))
+
+    all_comments = Comment.query.filter_by(pitch_id = id).all()
+    return render_template('comment.html', form = form, comment = all_comments, pitch = pitches )
+
+
+@main.route('/pitch/upvote/<int:id>/upvote', methods = ['GET', 'POST'])
+@login_required
+def upvote(pitch_id):
+    pitch = Pitch.query.get(pitch_id)
+    user = current_user
+    pitch_upvotes = Upvote.query.filter_by(pitch_id= id)
+    
+    if Upvote.query.filter(Upvote.user_id==user.id,Upvote.pitch_id==id).first():
+        return  redirect(url_for('main.index'))
+
+
+    new_upvote = Upvote(pitch_id=id, user = current_user)
+    new_upvote.save_upvotes()
+    return redirect(url_for('main.index'))
+
+
+@main.route('/pitch/downvote/<int:id>/downvote', methods = ['GET', 'POST'])
+@login_required
+def downvote(pitch_id):
+    pitch = Pitch.query.get(pitch_id)
+    user = current_user
+    pitch_downvotes = Downvote.query.filter_by(pitch_id= id)
+    
+    if Downvote.query.filter(Downvote.user_id==user.id,Downvote.pitch_id== id).first():
+        return  redirect(url_for('main.index'))
+
+
+    new_downvote = Downvote(pitch_id=id, user = current_user)
+    new_downvote.save_downvotes()
+    return redirect(url_for('main.index'))
+
+
+# @main.route('/view/comment/<int:id>')
+# def view_comments(id):
+#     '''
+#     Function that returs  the comments belonging to a particular pitch
+#     '''
+#     comment = Comment.get_comments(id)
+#     print(comments)
+#     return render_template('view_comments.html',comments = comments, id=id)
 
 @main.route('/user/<uname>')
 def profile(uname):

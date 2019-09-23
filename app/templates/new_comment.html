@@ -1,27 +1,38 @@
-{% extends 'base.html'%}
-{% import "bootstrap/wtf.html" as wtf %}
+<!-- {% extends "base.html" %}
 
-{% block content %}
-<div class="container">
-        <div class="col-md-3 col-lg-3 col-xl-3">    
-        </div>
+{% block styles%}
+{{ super() }}
+<link rel="stylesheet" href="{{url_for('static',filename='css/styles.css')}}">
+<link rel="stylesheet" href="{{url_for('static',filename='css/comments.css')}}">
+{% endblock%}
 
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 ">
-                {{ wtf.quick_form(comment_form) }}
 
-                
-        </div>
-        <div class="col-md-3 col-lg-3 col-xl-3">  
-                {% for item in comments %}
-                <div class="panel">
-                        <p style="font-family:Bellefair; font-size:20px; padding:10px; text-align:center;">{{item.comment}}</p>  
-                        <h5>&nbsp;&nbsp;Comment by: &nbsp;<span style="color:blue;font-family:Bellefair; font-size:20px;">{{item.username}}</span></h5>
-                        
-                </div>
-                {%endfor%}
-                
-        </div>
+{% block content%}
+    <div class="container">
+      <div class="row">
+          <h3>Comments for <strong>{{pitches.content}}</strong> by <strong>{{pitches.user.username}}</strong></h3>
+          <a href="{{url_for('main.new_comment',uname = current_user.username, pitch_id = pitches.id)}}"><button class="btn btn-info mr-0">Add a comment</button></a>
 
-</div>
 
-{% endblock %}
+      </div>
+
+      {% if comments %}
+          {%for comment in comments%}
+          <div class="row">
+              <div class="col-xs-1 col-md-1 col-lg-1">
+                  <img src="{{url_for('static', filename=current_user.profile_pic_path)}}" class="img-thumbnail d-inline" height="50px" width="50px">
+              </div>
+              <div class="col">
+                  <p class="d-inline"><strong>{{comment.user.username}}</strong>: " {{comment.comment}} "</p>
+                  <p>Posted on <strong>{{comment.date}}</strong> at <strong>{{comment.time}}</strong></p>
+              </div>
+          </div>
+          <hr>
+          {% endfor %}
+      {% else %}
+      <h2>There are no comments</h2>
+      {% endif %}
+
+    </div>
+
+{% endblock %} -->

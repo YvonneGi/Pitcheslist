@@ -15,13 +15,22 @@ class CategoryForm(FlaskForm):
     name = TextAreaField('Category')
     submit = SubmitField()
     #Comment Form
+
 class CommentForm(FlaskForm):
-    comment = TextAreaField('Comment', validators=[Required()])
-    submit = SubmitField()
-    vote=RadioField('default field arguments', choices=[('1', 'UpVote'), ('1', 'DownVote')])
+    '''
+    Class to create a wtf form for creating a pitch
+    '''
+    opinion = TextAreaField('Write your comment')
+    submit = SubmitField('Submit')
+    
 
 
 class UpvoteForm(FlaskForm):
     
     
     submit = SubmitField('Upvote')
+
+class DownvoteForm(FlaskForm):
+    
+    
+    submit = SubmitField('Downvote')
