@@ -30,7 +30,7 @@ class UpvoteForm(FlaskForm):
     
     submit = SubmitField('Upvote')
 
-# class DownvoteForm(FlaskForm):
+class DownvoteForm(FlaskForm):
     
     
-#     submit = SubmitField('Downvote')
+    submit = SubmitField('Downvote')
