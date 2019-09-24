@@ -49,6 +49,7 @@ class Category(db.Model):
     cat_name = db.Column(db.String(255))
     pitches = db.relationship('Pitch',backref = 'category',lazy="dynamic")
     
+    
     @classmethod
     def get_categories(cls):
         
@@ -98,9 +99,10 @@ class Comment(db.Model):
     __tablename__='comments'
     
     id = db.Column(db.Integer,primary_key=True)
+    description = db.Column(db.Text)
     pitch_id = db.Column(db.Integer, db.ForeignKey('pitches.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable= False)
-    description = db.Column(db.Text)
+   
 
     
     def __repr__(self):
