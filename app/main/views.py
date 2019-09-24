@@ -175,10 +175,10 @@ def update_pic(uname):
 
 
 
-# @main.route('/test/<int:id>')  
-# def test(id):
-#     '''
-#     this is route for basic testing
-#     '''
-#    blog =blog.query.filter_by(id=1).first()
-#    return render_template('test.html',Blog= Blog)
+@main.route('/test/<int:id>')  
+def test(id):
+    '''
+    this is route for basic testing
+    '''
+    blog =blog.query.filter_by(id=1).first()
+    return render_template('test.html',Blog= Blog)

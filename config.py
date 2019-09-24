@@ -2,8 +2,6 @@ import os
 
 class Config:
 
-    # MOVIE_API_BASE_URL ='https://api.themoviedb.org/3/movie/{}?api_key={}'
-    # MOVIE_API_KEY = 'a492717ad6be358381a84c3ad097772e'
     SECRET_KEY =('SECRET_KEY')
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://wecode:123@localhost/pitcheslist'
     UPLOADED_PHOTOS_DEST ='app/static/photos'
