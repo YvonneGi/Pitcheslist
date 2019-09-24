@@ -5,6 +5,7 @@ from app.models import User, Pitch, Category,Comment,Upvote,Downvote
 
 # Creating app instance
 app = create_app('development')
+app = create_app('production')
 # app = create_app('test')
 
 manager = Manager(app)
