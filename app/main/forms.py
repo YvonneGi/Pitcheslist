@@ -20,7 +20,7 @@ class CommentForm(FlaskForm):
     '''
     Class to create a wtf form for creating a pitch
     '''
-    opinion = TextAreaField('Write your comment')
+    description = TextAreaField('Write your comment')
     submit = SubmitField('Submit')
     
 
