@@ -2,7 +2,7 @@ from flask import render_template,redirect,url_for,abort,request
 from . import main
 from .forms import UpdateProfile,PitchForm,CategoryForm
 from .. import db,photos
-from ..models import User,Pitch,Category
+from ..models import User,Pitch,Category,Comment
 from flask_login import login_required,current_user
 import markdown2 
 
@@ -112,7 +112,7 @@ def update_profile(uname):
         return redirect(url_for('.profile',uname=user.username))
 
     return render_template('profile/update.html',form =form)
-    
+
 @main.route('/user/<uname>/update/pic',methods= ['POST'])
 @login_required
 def update_pic(uname):
