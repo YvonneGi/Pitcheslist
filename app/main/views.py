@@ -1,8 +1,8 @@
 from flask import render_template,redirect,url_for,abort,request
 from . import main
-from .forms import UpdateProfile,PitchForm,CategoryForm,CommentForm
+from .forms import UpdateProfile,PitchForm,CategoryForm,CommentForm,UpvoteForm
 from .. import db,photos
-from ..models import User,Pitch,Category,Comment
+from ..models import User,Pitch,Category,Comment,Upvote
 from flask_login import login_required,current_user
 import markdown2 
 
@@ -104,6 +104,22 @@ def new_comment(pitch_id):
     return render_template('comment.html', form = form, comment = all_comments, pitch = pitch )
 
 
+@main.route('/pitch/upvote/<int:pitch_id>/upvote', methods = ['GET', 'POST'])
+@login_required
+def upvote(pitch_id):
+    pitch = Pitch.query.get(pitch_id)
+    user = current_user
+    pitch_upvotes = Upvote.query.filter_by(pitch_id= pitch_id)
+    
+    if Upvote.query.filter(Upvote.user_id==user.id,Upvote.pitch_id==pitch_id).first():
+        return  redirect(url_for('main.index'))
+
+
+    new_upvote = Upvote(pitch_id=pitch_id, user = current_user)
+    new_upvote.save_upvotes()
+    return redirect(url_for('main.index'))
+
+
 @main.route('/user/<uname>')
 def profile(uname):
     user = User.query.filter_by(username = uname).first()
@@ -141,6 +157,8 @@ def update_pic(uname):
         user.profile_pic_path = path
         db.session.commit()
     return redirect(url_for('main.profile',uname=uname))
+
+
 
 # @main.route('/test/<int:id>')  
 # def test(id):

@@ -25,10 +25,10 @@ class CommentForm(FlaskForm):
     
 
 
-# class UpvoteForm(FlaskForm):
+class UpvoteForm(FlaskForm):
     
     
-#     submit = SubmitField('Upvote')
+    submit = SubmitField('Upvote')
 
 # class DownvoteForm(FlaskForm):
     
