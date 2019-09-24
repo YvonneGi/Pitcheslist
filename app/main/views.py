@@ -1,6 +1,6 @@
 from flask import render_template,redirect,url_for,abort,request
 from . import main
-from .forms import UpdateProfile,PitchForm,CategoryForm
+from .forms import UpdateProfile,PitchForm,CategoryForm,CommentForm
 from .. import db,photos
 from ..models import User,Pitch,Category,Comment
 from flask_login import login_required,current_user
@@ -84,6 +84,24 @@ def view_pitch(id):
         abort(404)
    
     return render_template('pitch.html', pitches=pitches,category_id=id)
+
+@main.route('/comment/new/<int:pitch_id>', methods = ['GET','POST'])
+@login_required
+def new_comment(pitch_id):
+    form = CommentForm()
+    pitch=Pitch.query.get(pitch_id)
+    if form.validate_on_submit():
+        description = form.description.data
+
+        new_comment = Comment(description = description, user_id = current_user._get_current_object().id, pitch_id = pitch_id)
+        db.session.add(new_comment)
+        db.session.commit()
+
+
+        return redirect(url_for('.new_comment', pitch_id= pitch_id))
+
+    all_comments = Comment.query.filter_by(pitch_id = pitch_id).all()
+    return render_template('comment.html', form = form, comment = all_comments, pitch = pitch )
 
 
 @main.route('/user/<uname>')

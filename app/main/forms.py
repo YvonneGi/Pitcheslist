@@ -16,12 +16,12 @@ class CategoryForm(FlaskForm):
     submit = SubmitField()
     #Comment Form
 
-# class CommentForm(FlaskForm):
-#     '''
-#     Class to create a wtf form for creating a pitch
-#     '''
-#     opinion = TextAreaField('Write your comment')
-#     submit = SubmitField('Submit')
+class CommentForm(FlaskForm):
+    '''
+    Class to create a wtf form for creating a pitch
+    '''
+    opinion = TextAreaField('Write your comment')
+    submit = SubmitField('Submit')
     
 
 
