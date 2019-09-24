@@ -1,39 +1,42 @@
 {% macro displayCategoryList(category_list) %}
-    {% for category in category_list%}
-        <div>
-          <a href="{{url_for('main.category',id=category.id)}}"><p>{{category.cat_name|upper}}</p></a>
-        </div>
+{% for category in category_list%}
+<div>
+  <a href="{{url_for('main.category',id=category.id)}}">
+    <p>{{category.cat_name|upper}}</p>
+  </a>
+</div>
 
-    {% endfor %}
+{% endfor %}
 {% endmacro %}
 
 {% macro displayPitches(pitch_list) %}
-  {% for pitches in pitch_list %}
-  <div class="col-md-12">
-    <div class="well">
-      <div class="row">
-        <p>{{pitches.name|upper}}</p></a>
-        <div class="col-md-10 col-sm-12">
-            <h3>{{pitches.content}}</h3>
-            <div class="card-body">
-              <blockquote class="blockquote mb-0">
-               
-                <footer class="blockquote-footer"> Posted by {{pitches.user.username}}</footer>
-              </blockquote>
-              
-              <a href="{{url_for('main.new_comment',pitch_id = pitches.id)}}" class="btn btn-info"> Add a comment</a>
-              <a href="{{url_for('main.upvote',pitch_id = category.id)}}" class= "btn btn-primary btn-sm"><i></i>Upvote <span>{{category.upvotes.count()}}</span></a>
-				      <a href="{{url_for('main.downvote',pitch_id = category.id)}}" class= "btn btn-danger btn-sm"><i class="far fa-thumbs-up"></i>Downvote <span>{{category.downvotes.count()}}</span></a>
+{% for pitches in pitch_list %}
+<div class="col-md-12">
+  <div class="well">
+    <div class="row">
+      <p>{{pitches.name|upper}}</p></a>
+      <div class="col-md-10 col-sm-12">
+        <h3>{{pitches.content}}</h3>
+        <div class="card-body">
+          <blockquote class="blockquote mb-0">
+
+            <footer class="blockquote-footer"> Posted by {{pitches.user.username}}</footer>
+          </blockquote>
+
+          <a href="{{url_for('main.new_comment',pitch_id = pitches.id)}}" class="btn btn-info"> Add a comment</a>
+          <a href="{{url_for('main.upvote',pitch_id = pitches.id)}}" class="btn btn-primary btn-sm"><i></i>Upvote
+            <span>{{pitches.upvotes.count()}}</span></a>
+          <a href="{{url_for('main.downvote',pitch_id = pitches.id)}}" class="btn btn-danger btn-sm"><i
+              class="far fa-thumbs-up"></i>Downvote <span>{{pitches.downvotes.count()}}</span></a>
 
 
-			</div>
-		</div>
+        </div>
+      </div>
 
-		</div>
-		{% endfor %}
-	{% else %}
-	{% endif %}
+    </div>
+  </div>
 </div>
+{% endfor %}
 {% endmacro %}
 
 
@@ -41,56 +44,45 @@
 {% macro displayComment(comments) %}
 <ul>
 
-			{% if comments %}
-			{% for comment in comments %}
-				<div class="row text-center">
-						<a><p style="color: brown">{{ comment.description }}</p></a>
-						<small> posted by {{comment.user.username}}</small>
-				</div>
-			{% endfor %}
-			{% else %}
-
-			<h3>This post does  not does not have any comments yet !</h3>
-			{%endif%}
-
-	</ul>
-	
-			
-
-
-{% endmacro %}
-
-      
-      
-            </div>
-            
-            
-      </div>
-    </div>
-   </div>
-
+  {% if comments %}
+  {% for comment in comments %}
+  <div class="row text-center">
+    <a>
+      <p style="color: brown">{{ comment.description }}</p>
+    </a>
+    <small> posted by {{comment.user.username}}</small>
   </div>
   {% endfor %}
+  {% else %}
+
+  <h3>This post does not does not have any comments yet !</h3>
+  {%endif%}
+
+</ul>
+
 {% endmacro %}
+
 
 {% macro displayComment(comments) %}
 <ul>
 
-			{% if comments %}
-			{% for comment in comments %}
-				<div class="row text-center">
-						<a><p style="color: brown">{{ comment.description }}</p></a>
-						<small> Posted by {{comment.user.username}}</small>
-				</div>
-			{% endfor %}
-			{% else %}
+  {% if comments %}
+  {% for comment in comments %}
+  <div class="row text-center">
+    <a>
+      <p style="color: brown">{{ comment.description }}</p>
+    </a>
+    <small> Posted by {{comment.user.username}}</small>
+  </div>
+  {% endfor %}
+  {% else %}
 
-			<h3>This post does  not does not have any comments yet !</h3>
-			{%endif%}
+  <h3>This post does not does not have any comments yet !</h3>
+  {%endif%}
 
-	</ul>
-	
-			
+</ul>
+
+
 
 
 {% endmacro %}

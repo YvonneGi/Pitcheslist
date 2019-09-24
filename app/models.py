@@ -21,6 +21,8 @@ class User(UserMixin,db.Model):
     profile_pic_path = db.Column(db.String())
     pitches = db.relationship('Pitch',backref = 'user',lazy="dynamic")
     comment = db.relationship('Comment', backref = 'user', lazy = 'dynamic')
+    upvotes = db.relationship('Upvote', backref = 'user', lazy = 'dynamic')
+    downvotes = db.relationship('Downvote', backref = 'user', lazy = 'dynamic')
 
 
     @property
@@ -66,6 +68,8 @@ class Pitch(db.Model):
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
     category_id = db.Column(db.Integer,db.ForeignKey('category.id'))
     comments = db.relationship('Comment',backref='pitch',lazy='dynamic')
+    upvotes = db.relationship('Upvote', backref = 'pitch', lazy = 'dynamic')
+    downvotes = db.relationship('Downvote', backref = 'pitch', lazy = 'dynamic')
     
     
 
